@@ -1,3 +1,5 @@
+import random
+
 from model.data import loader
 from model.server import server
 from model.client import client
@@ -24,12 +26,9 @@ def federated_learning():
     print('Initialize Client...')
     clients = []
     for i in range(n_client):
-        clients.append(client(rank=i, data_loader=data_loader.get_loader([
-            i % 10,
-            (i + 3) % 10,
-            (i + 6) % 10,
-            (i + 9) % 10,
-        ])))
+        clients.append(client(rank=i, data_loader=data_loader.get_loader(
+            random.sample(range(0, 10), 4)
+        )))
 
     # federated learning
     for e in range(n_epoch):
