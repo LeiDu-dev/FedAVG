@@ -52,7 +52,7 @@ class server(object):
 
         self.model.load_state_dict(global_model_state)
         test_acc = self.__test(self.model)
-        print('\n[Global model]  test_accuracy: {:.4f}\n'.format(test_acc))
+        print('\n[Global model]  test_accuracy: {:.2f}%\n'.format(test_acc * 100.))
         self.accuracy.append(test_acc)
 
         torch.save(self.accuracy, './cache/accuracy.pkl')
