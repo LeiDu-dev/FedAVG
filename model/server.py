@@ -31,10 +31,11 @@ class server(object):
                 test_correct += pred.eq(target.view_as(pred)).sum().item()
         return test_correct / len(self.test_loader.dataset)
 
-    def __load_model_states(self):
+    @staticmethod
+    def __load_model_states(sample_index):
         model_states = []
-        for s in range(self.size):
-            model_states.append(torch.load('./cache/model_state_{}.pkl'.format(s)))
+        for i in sample_index:
+            model_states.append(torch.load('./cache/model_state_{}.pkl'.format(i)))
         return model_states
 
     @staticmethod
@@ -46,8 +47,8 @@ class server(object):
             global_model_state[key] = torch.div(global_model_state[key], len(model_states))
         return global_model_state
 
-    def aggregate(self):
-        model_states = self.__load_model_states()
+    def aggregate(self, sample_index):
+        model_states = self.__load_model_states(sample_index)
         global_model_state = self.__model_averaging(model_states)
 
         self.model.load_state_dict(global_model_state)

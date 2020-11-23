@@ -78,5 +78,5 @@ class client(object):
                 test_loss,
                 test_acc
             ))
-        print()
+        # print()
         torch.save(model.state_dict(), './cache/model_state_{}.pkl'.format(self.rank))
